@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💘</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff6fae, #ffc1dc);
+  overflow: hidden;
+  transition: background 1s;
+}
+
+/* 🌑 DARK MODE */
+body.dark {
+  background: radial-gradient(circle at top, #111, #000);
+  animation: shake 0.15s infinite;
+}
+
+/* SCREEN SHAKE */
+@keyframes shake {
+  0% { transform: translate(1px, 1px); }
+  50% { transform: translate(-1px, -1px); }
+  100% { transform: translate(1px, -1px); }
+}
+
+/* BACKGROUND ANIMALS */
+.animals {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.6s;
+}
+
+body.dark .animals {
+  opacity: 0;
+}
+
+.animal {
+  position: absolute;
+  width: 60px;
+  opacity: 0.85;
+  animation: float 9s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+/* CARD */
+.card {
+  position: relative;
+  z-index: 10;
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(14px);
+  border-radius: 24px;
+  padding: 32px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+  color: white;
+}
+
+body.dark .card {
+  background: rgba(0,0,0,0.7);
+}
+
+button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 30px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  background: white;
+  color: #ff5fa2;
+}
+
+.other {
+  margin-top: 14px;
+  font-size: 14px;
+  opacity: 0.85;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* WORD REVEAL */
+.word {
+  opacity: 0;
+  letter-spacing: 2px;
+  animation: appear 0.6s forwards;
+}
+
+@keyframes appear {
+  to { opacity: 1; }
+}
+
+/* CONFETTI */
+.heart {
+  position: absolute;
+  font-size: 22px;
+  animation: rise 5s linear infinite;
+}
+
+@keyframes rise {
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🐾 ANIMALS -->
+<div class="animals" id="animals"></div>
+
+<!-- 💘 CARD -->
+<div class="card" id="card">
+  <h1>Genesis 💖</h1>
+  <h1>Will you be my Valentine?</h1>
+
+  <button onclick="yes()">Yes 💕</button>
+  <button onclick="yes()">Yes 😍</button>
+
+  <div class="other" onclick="other()">Other options</div>
+</div>
+
+<script>
+/* 🐱🐶 SPAWN LOTS OF ANIMALS */
+const animals = document.getElementById("animals");
+
+const templates = [
+  `<svg viewBox="0 0 100 100"><circle cx="50" cy="55" r="28" fill="#b0b0b0"/><polygon points="30,35 38,20 45,35" fill="#b0b0b0"/><polygon points="70,35 62,20 55,35" fill="#b0b0b0"/><circle cx="42" cy="55" r="4"/><circle cx="58" cy="55" r="4"/></svg>`,
+  `<svg viewBox="0 0 100 100"><circle cx="50" cy="55" r="28" fill="#ff9f43"/><path d="M22 55 h56 v18 h-56z" fill="#fff"/><polygon points="30,35 38,20 45,35" fill="#ff9f43"/><polygon points="70,35 62,20 55,35" fill="#ff9f43"/><circle cx="42" cy="55" r="4"/><circle cx="58" cy="55" r="4"/></svg>`,
+  `<svg viewBox="0 0 100 100"><circle cx="50" cy="55" r="30" fill="#fff"/><ellipse cx="30" cy="40" rx="10" ry="14" fill="#fff"/><ellipse cx="70" cy="40" rx="10" ry="14" fill="#fff"/><circle cx="43" cy="55" r="4"/><circle cx="57" cy="55" r="4"/><circle cx="50" cy="62" r="3"/></svg>`
+];
+
+for (let i = 0; i < 24; i++) {
+  const d = document.createElement("div");
+  d.className = "animal";
+  d.style.left = Math.random() * 100 + "vw";
+  d.style.top = Math.random() * 100 + "vh";
+  d.style.animationDelay = Math.random() * 5 + "s";
+  d.innerHTML = templates[Math.floor(Math.random() * templates.length)];
+  animals.appendChild(d);
+}
+
+/* 💘 YES */
+function yes() {
+  document.body.classList.remove("dark");
+  document.getElementById("card").innerHTML = `
+    <h1>YAY GENESIS!!! 🎉💘</h1>
+    <p>now me bella, cheeto and samuel are happy.</p>
+  `;
+  for (let i = 0; i < 40; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "💖";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = 3 + Math.random() * 3 + "s";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }
+}
+
+/* 🌑 OTHER OPTIONS (SCARY) */
+function other() {
+  document.body.classList.add("dark");
+
+  const words = ["there.....", "are....", "no....", "other....", "options."];
+
+  let html = "";
+  words.forEach((w, i) => {
+    html += `<h1 class="word" style="animation-delay:${i * 0.8}s">${w}</h1>`;
+  });
+
+  html += `<button onclick="yes()" style="margin-top:20px">Okay yes 😳❤️</button>`;
+  document.getElementById("card").innerHTML = html;
+}
+</script>
+
+</body>
+</html>
